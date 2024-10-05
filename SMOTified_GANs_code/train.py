@@ -53,26 +53,18 @@ def Oversampled_data(X_train_SMOTE, y_train_SMOTE, y_train, device):
 
 def main():
 
-    dataset_url =  'https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/abalone_csv.csv'
-    download_url(dataset_url, '.')
-    Abalone_df  = pd.read_csv('D:/Projects/Internship UNSW/abalone_csv.csv')
+    Abalone_df  = pd.read_csv('bcwd.csv')
 
     #print(Abalone_df.Class_number_of_rings.size)
     option = int(input('Type the number of Abalone classes needed: '))
     if option == 2:
+        device = torch.device('cuda')
 
-        Abalone_df = two_classes_Abalone(Abalone_df)
-
-        label_encoder = LabelEncoder()
-        onehot_encoder = OneHotEncoder(sparse=False) 
-        Sex_labelencoded= label_encoder.fit_transform(Abalone_df['Sex']) 
-        Sex_labelencoded = Sex_labelencoded.reshape(len(Sex_labelencoded), 1)
-        Sex_onehotencoded = onehot_encoder.fit_transform(Sex_labelencoded)
-
-        Abalone_df = Abalone_df.drop(['Sex'], axis=1)
+        # Abalone_df = Abalone_df.drop(['Class'], axis=1)
         
-        X_train, X_test = get_features(Abalone_df, Sex_onehotencoded, 0.2)
-        y_train, y_test = get_labels(Abalone_df, 0.2)
+        # X_train, X_test = get_features(Abalone_df, Abalone_df['Class'], 0.2)
+        # y_train, y_test = get_labels(Abalone_df, 0.2)
+        X_train, X_test, y_train, y_test = train_test_split(Abalone_df.drop(['Class'], axis=1), Abalone_df['Class'], test_size=0.2, random_state=10)
 
         #### Calculating train and test accuracy and f1 score of non oversampled training data ####
         Normal_test_accuracy, Normal_train_accuracy, Normal_f1_score = test_model_lists(X_train, y_train.ravel(), X_test, y_test.ravel(), 30) 
@@ -95,12 +87,13 @@ def main():
         #### Calculating train and test accuracy and f1 score of SMOTE oversampled training data ####
         SMOTE_test_accuracy, SMOTE_train_accuracy, SMOTE_f1_score = test_model_lists(X_train_SMOTE, y_train_SMOTE.ravel(), X_test, y_test.ravel(), 30)
 
-        device = get_default_device()
+        # device = get_default_device()
+        device = torch.device('cuda')
         #print(device)
 
         ##################### TWO CLASS ABALONE #####################
         ##### Oversampled data from SMOTE that is now to be passed in SMOTified GANs #####
-        X_oversampled = X_train_SMOTE[(X_train.shape[0]):]
+        X_oversampled = X_train_SMOTE[(X_train.shape[0]):].to_numpy()
         X_oversampled = torch.from_numpy(X_oversampled)
         X_oversampled = to_device(X_oversampled.float(), device)
 
@@ -129,18 +122,18 @@ def main():
         #### Calculating train and test accuracy and f1 score of SMOTified GANs oversampled training data ####
         G_test_accuracy, G_train_accuracy, G_f1_score = test_model_lists(X_trained_G, y_trained_G.ravel(), X_test, y_test.ravel(), 30)
 
-        print(Normal_test_accuracy)
-        print(Normal_train_accuracy)
-        print(Normal_f1_score)
-        print(SMOTE_test_accuracy)
-        print(SMOTE_train_accuracy)
-        print(SMOTE_f1_score)
-        print(SG_test_accuracy)
-        print(SG_train_accuracy)
-        print(SG_f1_score)
-        print(G_test_accuracy)
-        print(G_train_accuracy)
-        print(G_f1_score)
+        print("Normal Test Accuracy: ",Normal_test_accuracy)
+        print("Normal Train Accuracy: ",Normal_train_accuracy)
+        print("Normal F1 Score:",Normal_f1_score)
+        print("SMOTE_test_accuracy: ",SMOTE_test_accuracy)
+        print("SMOTE_train_accuracy: ",SMOTE_train_accuracy)
+        print("SMOTE_f1_score: ",SMOTE_f1_score)
+        print("SG_test_accuracy: ",SG_test_accuracy)
+        print("SG_train_accuracy", SG_train_accuracy)
+        print("SG_f1_score: ",SG_f1_score)
+        print("G_test_accuracy: ",G_test_accuracy)
+        print("G_train_accuracy: ", G_train_accuracy)
+        print("G_f1_score: ",G_f1_score)
 
 
 

@@ -1,10 +1,8 @@
 import numpy as np 
 import pandas as pd 
-import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-%matplotlib inline
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import OneHotEncoder
@@ -13,10 +11,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.utils import compute_class_weight
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import mean_squared_error
-from sklearn.metrics import plot_confusion_matrix
-from sklearn.metrics import plot_precision_recall_curve
 from sklearn.metrics import precision_recall_curve
-from sklearn.metrics import plot_roc_curve
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score

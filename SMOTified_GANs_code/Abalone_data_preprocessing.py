@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas import DataFrame
 import numpy as np
 from sklearn.model_selection import train_test_split
 
@@ -58,12 +59,14 @@ def get_labels(Abalone_df, test_size):
 
 
 
-def GANs_two_class_real_data(X_train, y_train):   #Defining the real data for GANs
+def GANs_two_class_real_data(X_train: DataFrame, y_train):   #Defining the real data for GANs
   X_real = []
   y_train = y_train.ravel()
+  print(type(X_train))
+  X_train = X_train.reset_index(drop=True)
   for i in range(len(y_train)):
     if int(y_train[i])==1:
-      X_real.append(X_train[i])
+      X_real.append(X_train.loc[i])
   X_real = np.array(X_real)
   y_real = np.ones((X_real.shape[0],))
   return X_real, y_real
