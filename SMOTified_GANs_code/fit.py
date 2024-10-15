@@ -6,7 +6,7 @@ from model_fit import SG_fit, G_fit
 #This file is used in train.py file
 
 
-def f1(X_train, y_train, X_train_SMOTE, y_train_SMOTE, X_real, y_real, X_oversampled, device, lr, epochs, batch_size, minority_class, majority_class):   #Fetches us the trained generators
+def  f1(X_train, y_train, X_train_SMOTE, y_train_SMOTE, X_real, y_real, X_oversampled, device, lr, epochs, batch_size, minority_class, majority_class):   #Fetches us the trained generators
     # X_oversampled = X_train_SMOTE[(X_train.shape[0]):]
     # X_oversampled = torch.from_numpy(X_oversampled)
     # X_oversampled = to_device(X_oversampled.float(), device)
@@ -48,5 +48,5 @@ def f1(X_train, y_train, X_train_SMOTE, y_train_SMOTE, X_real, y_real, X_oversam
     G_fit_func = G_fit(epochs, lr, discriminator_G, generator_G, train_dl, device, minority_class, majority_class)
     history2 = G_fit_func()
 
-    return generator_SG, generator_SG
+    return generator_SG, generator_G
     

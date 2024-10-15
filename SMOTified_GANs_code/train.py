@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import torch
 from tqdm.auto import tqdm
-from torchvision.datasets.utils import download_url
+# from torchvision.datasets.utils import download_url
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
@@ -71,8 +71,8 @@ def main():
         
         print("Before OverSampling, counts of label '0': {}".format(sum(y_train==0)))
         print("Before OverSampling, counts of label '1': {}".format(sum(y_train==1))) 
-        print("Before OverSampling, counts of label '2': {}".format(sum(y_train==2)))
-        print("Before OverSampling, counts of label '3': {}".format(sum(y_train==3)))     
+        # print("Before OverSampling, counts of label '2': {}".format(sum(y_train==2)))
+        # print("Before OverSampling, counts of label '3': {}".format(sum(y_train==3)))     
 
         X_train_SMOTE,y_train_SMOTE = SMOTE().fit_resample(X_train,y_train)
 
@@ -81,8 +81,8 @@ def main():
 
         print("After OverSampling, counts of label '0': {}".format(sum(y_train_SMOTE==0)))
         print("After OverSampling, counts of label '1': {}".format(sum(y_train_SMOTE==1))) 
-        print("After OverSampling, counts of label '2': {}".format(sum(y_train_SMOTE==2))) 
-        print("After OverSampling, counts of label '3': {}".format(sum(y_train_SMOTE==3))) 
+        # print("After OverSampling, counts of label '2': {}".format(sum(y_train_SMOTE==2))) 
+        # print("After OverSampling, counts of label '3': {}".format(sum(y_train_SMOTE==3))) 
 
         #### Calculating train and test accuracy and f1 score of SMOTE oversampled training data ####
         SMOTE_test_accuracy, SMOTE_train_accuracy, SMOTE_f1_score = test_model_lists(X_train_SMOTE, y_train_SMOTE.ravel(), X_test, y_test.ravel(), 30)
@@ -98,7 +98,7 @@ def main():
         X_oversampled = to_device(X_oversampled.float(), device)
 
         #print(X_oversampled.shape)
-        lr = 0.0002
+        lr = 0.001
         epochs = 150
         batch_size = 128
 
