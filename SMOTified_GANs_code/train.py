@@ -58,7 +58,7 @@ def main():
     #print(Abalone_df.Class_number_of_rings.size)
     option = int(input('Type the number of Abalone classes needed: '))
     if option == 2:
-        device = torch.device('cuda')
+        device = torch.device('cpu')
 
         # Abalone_df = Abalone_df.drop(['Class'], axis=1)
         
@@ -88,7 +88,7 @@ def main():
         SMOTE_test_accuracy, SMOTE_train_accuracy, SMOTE_f1_score = test_model_lists(X_train_SMOTE, y_train_SMOTE.ravel(), X_test, y_test.ravel(), 30)
 
         # device = get_default_device()
-        device = torch.device('cuda')
+        device = torch.device('cpu')
         #print(device)
 
         ##################### TWO CLASS ABALONE #####################
